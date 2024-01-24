@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rust Org Chart</title>
+  <meta charset="utf-8">
+  <style type="text/css">
+    :root {
+      --default-transition-duration: 0.3s;
+    }
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      background-color: #fefefe;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #0f1419;
+        color: #c5c5c5;
+      }
+    }
+
+    button {
+      font-family: inherit;
+      border: 0;
+    }
+
+    .kind-team .team-background {
+      fill: #0b7261;
+    }
+
+    .kind-working-group .team-background {
+      fill: #9d5454;;
+    }
+
+    .kind-project-group .team-background {
+      fill: #552459;
+    }
+
+    .team-background {
+      transition-duration: var(--default-transition-duration);
+    }
+
+    .team-members-expanded .team-background {
+      rx: 15px;
+    }
+
+    .team-name {
+      fill: #fff;
+      font-size: 14px;
+      font-weight: bold;
+      white-space: nowrap;
+      /* These allow positioning text by its midpoint. */
+/*      text-anchor: middle;
+      dominant-baseline: middle;*/
+      transition-duration: var(--default-transition-duration);
+    }
+
+    .team-members-expanded .team-name {
+/*      text-anchor: start;
+      dominant-baseline: auto;
+*/    }
+
+    .team-members-expanded .team-name {
+    }
+
+    .team-member-count {
+      transition-duration: var(--default-transition-duration);
+    }
+
+    .team-member-count-background {
+      fill: #dbdbdb;
+      width: 30px;
+      height: 16px;
+    }
+
+    .team-member-count-background:hover {
+      fill: #eeeeee;
+    }
+
+    .team-member-count-text {
+      font-size: 12px;
+      transform: translate(15px, 9px);
+      /* These allow positioning text by its midpoint. */
+      text-anchor: middle;
+      dominant-baseline: middle;
+      /* Allows clicks and hover to ignore the text and bubble to the parent. */
+      pointer-events: none;
+    }
+
+    .team-subteam-toggle {
+      transition-duration: var(--default-transition-duration);
+    }
+
+    .team-subteam-toggle-background {
+      fill: #dbdbdb;
+      width: 40px;
+      height: 16px;
+    }
+
+    .team-subteam-toggle-background:hover {
+      fill: #eeeeee;
+    }
+
+    .team-subteam-toggle-text {
+      font-size: 12px;
+      transform: translate(26px, 9px);
+      /* These allow positioning text by its midpoint. */
+      text-anchor: middle;
+      dominant-baseline: middle;
+      /* Allows clicks and hover to ignore the text and bubble to the parent. */
+      pointer-events: none;
+    }
+
+    .team-subteam-toggle-chevron {
+      fill: none;
+      stroke: black;
+      transform: translate(6px, 5px);
+      /* Places rotation point in the middle. */
+      transform-origin: 6px 2.5px;
+      pointer-events: none;
+      transition-duration: var(--default-transition-duration);
+    }
+
+    .team-subteams-expanded .team-subteam-toggle-chevron {
+      transform: translate(6px, 5px) rotate(180deg);
+    }
+
+
+
+
+
+
+
+    .team-content {
+
+/*      text-align: center;
+      line-height: 60px;
+      display: flex;
+      justify-content: center;*/
+    }
+
+
+    .team-member {
+      border-radius: 35px;
+/*      width: 200px;
+      height: 60px;*/
+/*      overflow: hidden;*/
+      visibility: hidden;
+      /* Scale from the center. */
+      transform-origin: center;
+      /* Default box for transform is view-box which is weird.
+         fill-box allows scaling from the center of the element. */
+      transform-box: fill-box;
+/*      transition-duration: var(--default-transition-duration);*/
+    }
+
+    .team-members-expanded .team-member {
+/*      visibility: visible;*/
+    }
+
+    .team-member-background {
+      fill: rgb(46, 36, 89);
+    }
+
+    .member-img {
+      clip-path: inset(0% round 50%);
+      width: 50px;
+      height: 50px;
+      transform: translate(5px, 5px);
+    }
+
+    .lead .team-member-background {
+      stroke: rgb(255, 200, 50);
+      stroke-width: 3;
+    }
+
+    .member-name {
+      fill: #fff;
+      font-size: 14px;
+      font-weight: bold;
+      white-space: nowrap;
+      transform: translate(60px, 20px);
+    }
+
+    .member-github {
+      fill: #fff;
+      font-size: 12px;
+      transform: translate(60px, 40px);
+    }
+
+    .link-line {
+      fill: none;
+      stroke: #999;
+      stroke-width: 2px;
+    }
+
+    #stats {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      z-index: -1;
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+
+    #stats table td:nth-child(2) {
+      text-align: right;
+    }
+
+  </style>
+</head>
+<body>
+  <svg id="org-svg" width="100vw" height="100vh">
+    <g id="org-container">
+    </g>
+  </svg>
+  <div id="stats">
+    <table></table>
+  </div>
+
+  <script src="org-chart-data.js"></script>
+  <script src="org-chart.js"></script>
+</body>
+</html>
+
