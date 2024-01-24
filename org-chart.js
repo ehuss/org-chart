@@ -837,7 +837,6 @@ function initialize() {
     RAW_TEAMS["compiler"].subteam_of = "leadership-council";
     RAW_TEAMS["mods"].subteam_of = "leadership-council";
     RAW_TEAMS["infra"].subteam_of = "leadership-council";
-    RAW_TEAMS["release"].subteam_of = "leadership-council";
     RAW_TEAMS["libs"].subteam_of = "leadership-council";
 
     // Should be archived.
