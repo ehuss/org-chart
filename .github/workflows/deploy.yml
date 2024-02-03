@@ -1,0 +1,34 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    permissions:
+      contents: write  # for Git to git push
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Deploy
+      run: |
+        # Override previous ref to avoid keeping history.
+        git worktree add --orphan -B gh-pages gh-pages
+        git config user.name "Deploy from CI"
+        git config user.email ""
+        cd gh-pages
+
+        cp ../org-chart.{html,js} .
+        cargo run
+        touch .nojekyll
+
+        git add org-chart* .nojekyll
+        git commit -m "Deploy $GITHUB_SHA to gh-pages"
+        git push origin +gh-pages
