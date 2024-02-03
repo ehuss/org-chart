@@ -838,30 +838,10 @@ function initialize() {
     RAW_TEAMS["mods"].subteam_of = "leadership-council";
     RAW_TEAMS["infra"].subteam_of = "leadership-council";
     RAW_TEAMS["libs"].subteam_of = "leadership-council";
+    RAW_TEAMS["launching-pad"].subteam_of = "leadership-council";
 
     // Should be archived.
     delete RAW_TEAMS["core"];
-
-    // TODO: launching-pad
-    RAW_TEAMS["launching-pad"] = {
-        name: "launching-pad",
-        kind: "team",
-        subteam_of: "leadership-council",
-        members: [],
-    };
-    RAW_TEAMS["community"].subteam_of = "launching-pad";
-    RAW_TEAMS["docker"].subteam_of = "launching-pad";
-    RAW_TEAMS["twir"].subteam_of = "launching-pad";
-    RAW_TEAMS["web-presence"].subteam_of = "launching-pad";
-    RAW_TEAMS["wg-async"].subteam_of = "launching-pad";
-    RAW_TEAMS["wg-cli"].subteam_of = "launching-pad";
-    RAW_TEAMS["wg-embedded"].subteam_of = "launching-pad";
-    RAW_TEAMS["wg-gamedev"].subteam_of = "launching-pad";
-    RAW_TEAMS["wg-rust-by-example"].subteam_of = "launching-pad";
-    RAW_TEAMS["wg-secure-code"].subteam_of = "launching-pad";
-    RAW_TEAMS["wg-security-response"].subteam_of = "launching-pad";
-    RAW_TEAMS["wg-wasm"].subteam_of = "launching-pad";
-    RAW_TEAMS["wg-triage"].subteam_of = "launching-pad";
 
     initTeams();
     let lc = TEAMS["leadership-council"];
@@ -890,7 +870,11 @@ function initTeams() {
  */
 function linkSubteams() {
     for (const [key, team] of Object.entries(TEAMS)) {
-        if (team.parent_key != null) {
+        if (team.parent_key == null) {
+            if (team.name != "leadership-council") {
+                console.log(`team ${team.name} has no parent`);
+            }
+        } else {
             team.parent = TEAMS[team.parent_key];
             team.parent.subteams.push(team);
         }
