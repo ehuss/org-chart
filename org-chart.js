@@ -832,7 +832,6 @@ class Team {
 function initialize() {
     // TODO: Fix in team repo.
     RAW_TEAMS["devtools"].subteam_of = "leadership-council";
-    RAW_TEAMS["crates-io"].subteam_of = "leadership-council";
     RAW_TEAMS["lang"].subteam_of = "leadership-council";
     RAW_TEAMS["compiler"].subteam_of = "leadership-council";
     RAW_TEAMS["mods"].subteam_of = "leadership-council";
