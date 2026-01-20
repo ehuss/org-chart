@@ -1048,7 +1048,6 @@ class GlobalViewport {
     }
 
     zoom(e) {
-        // TODO: backwards
         e.preventDefault();
         e.stopPropagation();
         let delta;
@@ -1061,7 +1060,8 @@ class GlobalViewport {
                 break;
         }
         delta *= GlobalViewport.ZOOM_SPEED;
-        let new_scale = this.transform.scale * (delta + 1);
+        let scale_factor = delta > 0 ? (1 + delta) : (1 / (1 - delta));
+        let new_scale = this.transform.scale * scale_factor;
         if (
             new_scale > GlobalViewport.MAX_SCALE ||
             new_scale < GlobalViewport.MIN_SCALE
@@ -1072,8 +1072,8 @@ class GlobalViewport {
         let pos = this.adjustedPos(e);
         let deltaX = this.transform.x - pos.x;
         let deltaY = this.transform.y - pos.y;
-        this.transform.x += (1 + delta) * deltaX - deltaX;
-        this.transform.y += (1 + delta) * deltaY - deltaY;
+        this.transform.x += scale_factor * deltaX - deltaX;
+        this.transform.y += scale_factor * deltaY - deltaY;
         this.setTransform();
     }
 
